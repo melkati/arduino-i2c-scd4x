@@ -50,6 +50,35 @@ void SensirionI2CScd4x::begin(TwoWire& i2cBus) {
     _i2cBus = &i2cBus;
 }
 
+uint16_t SensirionI2CScd4x::getFeatures(uint16_t& features) {
+    uint16_t error;
+    uint8_t buffer[3];
+    SensirionI2CTxFrame txFrame(buffer, 3);
+
+    error = txFrame.addCommand(0x202F);
+    if (error) {
+        return error;
+    }
+
+    error = SensirionI2CCommunication::sendFrame(SCD4X_I2C_ADDRESS, txFrame,
+                                                 *_i2cBus);
+    if (error) {
+        return error;
+    }
+
+    delay(1);
+
+    SensirionI2CRxFrame rxFrame(buffer, 3);
+    error = SensirionI2CCommunication::receiveFrame(SCD4X_I2C_ADDRESS, 3,
+                                                    rxFrame, *_i2cBus);
+    if (error) {
+        return error;
+    }
+
+    error |= rxFrame.getUInt16(features);
+    return error;
+}
+
 uint16_t SensirionI2CScd4x::startPeriodicMeasurement() {
     uint16_t error;
     uint8_t buffer[2];

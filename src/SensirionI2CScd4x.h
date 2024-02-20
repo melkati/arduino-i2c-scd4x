@@ -56,6 +56,22 @@ class SensirionI2CScd4x {
     void begin(TwoWire& i2cBus);
 
     /**
+     * getFeatures() - get the sensor features. typeOfSensor is the 13th bit of
+     * the featureSet.
+     * uint8_t typeOfSensor = ((featureSet & 0x1000) >> 12);
+     *   typeOfSensor == 0: SCD40
+     *   typeOfSensor == 1: SCD41
+     *
+     * @note This command is only available in idle mode.
+     *
+     * @param features Sensor features
+     *
+     * @return 0 on success, an error code otherwise
+     *
+     */
+    uint16_t getFeatures(uint16_t& features);
+
+    /**
      * startPeriodicMeasurement() - start periodic measurement, signal update
      * interval is 5 seconds.
      *
