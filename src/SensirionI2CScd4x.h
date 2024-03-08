@@ -418,9 +418,13 @@ class SensirionI2CScd4x {
      *
      * @note Only available in idle mode.
      *
+     * @param nonBlocking If true, the function will return immediately after
+     * the measurement command is sent. If false, the function will wait for the
+     * measurement to complete before returning.
+     *
      * @return 0 on success, an error code otherwise
      */
-    uint16_t measureSingleShot(void);
+    uint16_t measureSingleShot(bool nonBlocking = false);
 
     /**
      * measureSingleShotRhtOnly() - On-demand measurement of relative humidity
