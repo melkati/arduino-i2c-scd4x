@@ -617,7 +617,7 @@ uint16_t SensirionI2CScd4x::reinit() {
     return error;
 }
 
-uint16_t SensirionI2CScd4x::measureSingleShot(bool nonBlocking = false) {
+uint16_t SensirionI2CScd4x::measureSingleShot(bool nonBlocking) {
     uint16_t error;
     uint8_t buffer[2];
     SensirionI2CTxFrame txFrame(buffer, 2);
